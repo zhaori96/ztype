@@ -231,7 +231,7 @@ func (s *String) Scan(value any) error {
 //	s := ztype.NewString("db-value")
 //	val, _ := s.Value()
 //	val.(string) // "db-value"
-func (s *String) Value() (driver.Value, error) {
+func (s String) Value() (driver.Value, error) {
 	return s.value.Value()
 }
 

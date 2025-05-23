@@ -241,7 +241,7 @@ func (b *Byte) Scan(value any) error {
 //
 //	value, _ := b.Value()
 //	// Use value in SQL queries
-func (b *Byte) Value() (driver.Value, error) {
+func (b Byte) Value() (driver.Value, error) {
 	return b.value.Value()
 }
 

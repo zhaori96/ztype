@@ -635,7 +635,7 @@ func (n *Numeric[T]) Scan(value any) error {
 //	n := NewNumber(42)
 //	val, _ := n.Value()
 //	fmt.Printf("%T", val) // Output: int
-func (n *Numeric[T]) Value() (driver.Value, error) {
+func (n Numeric[T]) Value() (driver.Value, error) {
 	return n.value.Value()
 }
 

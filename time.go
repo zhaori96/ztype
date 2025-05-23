@@ -880,7 +880,7 @@ func (d *Duration) Scan(value any) error {
 //
 // Example:
 //  _, err := db.Exec("INSERT INTO sessions (duration) VALUES (?)", d.Value())
-func (d *Duration) Value() (driver.Value, error) {
+func (d Duration) Value() (driver.Value, error) {
 	if !d.valid {
 		return nil, nil
 	}

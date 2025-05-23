@@ -237,7 +237,7 @@ func (b *Bool) Scan(value any) error {
 //
 //	value, _ := b.Value()
 //	// Use value in SQL queries
-func (b *Bool) Value() (driver.Value, error) {
+func (b Bool) Value() (driver.Value, error) {
 	return b.value.Value()
 }
 

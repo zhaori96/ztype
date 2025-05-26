@@ -654,7 +654,7 @@ func (t *Time) Scan(value any) error {
 //
 // Example:
 //  _, err := db.Exec("INSERT INTO users (created_at) VALUES (?)", t.Value())
-func (t *Time) Value() (driver.Value, error) {
+func (t Time) Value() (driver.Value, error) {
 	return t.value.Value()
 }
 

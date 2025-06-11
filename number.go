@@ -118,14 +118,14 @@ func (n *Numeric[T]) SetNull() {
 //	if num.IsNull() {
 //	    fmt.Println("Value is null")
 //	}
-func (i Numeric[T]) IsNull() bool {
-	return !i.value.Valid
+func (n Numeric[T]) IsNull() bool {
+	return !n.value.Valid
 }
 
 // Unmarshaled indicates if the value was set through unmarshaling.
 // Used for tracking partial updates in data structures.
-func (s Numeric[T]) Unmarshaled() bool {
-	return s.unmarshaled
+func (n Numeric[T]) Unmarshaled() bool {
+	return n.unmarshaled
 }
 
 // SetUnmarshaled controls the unmarshaled flag. Used by parent structures

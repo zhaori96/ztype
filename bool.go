@@ -51,6 +51,20 @@ func NewNullBool() Bool {
 	return Bool{value: sql.NullBool{Valid: false}}
 }
 
+// NewNullBoolIfZero returns a null Bool if the given value is false.
+// Otherwise, it returns a valid Bool with the provided value.
+//
+// Example:
+//
+//	b1 := NewNullBoolIfZero(false)   // Null
+//	b2 := NewNullBoolIfZero(true)    // Valid with true
+func NewNullBoolIfZero(value bool) Bool {
+	if !value {
+		return NewNullBool()
+	}
+	return NewBool(value)
+}
+
 // Get returns the boolean value. When null, returns false.
 // Use IsNull() to check validity before using this value.
 //

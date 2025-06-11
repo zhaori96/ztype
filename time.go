@@ -70,6 +70,20 @@ func NewNullTime() Time {
 	return Time{value: sql.NullTime{Valid: false}}
 }
 
+// NewNullTimeIfZero returns a null Time if the given time value is zero.
+// Otherwise, it returns a valid Time with the provided value.
+//
+// Example:
+//
+//	t1 := NewNullTimeIfZero(time.Time{})           // Null
+//	t2 := NewNullTimeIfZero(time.Now())            // Valid with current time
+func NewNullTimeIfZero(value time.Time) Time{
+	if value.IsZero(){
+		return NewNullTime()
+	}
+	return NewTime(value)
+}
+
 // Get returns the underlying time.Time value.
 // Returns zero time if NULL.
 //
@@ -700,6 +714,20 @@ func NewDuration(value time.Duration) Duration {
 //  fmt.Println(d.IsNull()) // Output: true
 func NewNullDuration() Duration {
 	return Duration{valid: false}
+}
+
+// NewNullDurationIfZero returns a null Duration if the given duration is zero.
+// Otherwise, it returns a valid Duration with the provided value.
+//
+// Example:
+//
+//	d1 := NewNullDurationIfZero(0)                     // Null
+//	d2 := NewNullDurationIfZero(2 * time.Second)       // Valid with 2s
+func NewNullDurationIfZero(value time.Duration) Duration{
+	if value == 0{
+		return NewNullDuration()
+	}
+	return NewDuration(value)
 }
 
 // Get returns the underlying duration value.

@@ -63,6 +63,20 @@ func NewNullNumber[T NumberType]() Numeric[T] {
 	return Numeric[T]{value: sql.Null[T]{Valid: false}}
 }
 
+// NewNullNumberIfZero returns a null Numeric if the given value is zero.
+// Otherwise, it returns a valid Numeric with the provided value.
+//
+// Example:
+//
+//	n := NewNullNumberIfZero(0)     // Null
+//	n2 := NewNullNumberIfZero(42)   // Valid with value 42
+func NewNullNumberIfZero[T NumberType](value T) Numeric[T] {
+	if value == 0 {
+		return NewNullNumber[T]()
+	}
+	return NewNumber(value)
+}
+
 // Get returns the underlying value. Returns zero value if null.
 //
 // Example:

@@ -39,6 +39,24 @@ func NewNullString() String {
 	return String{value: sql.NullString{Valid: false}}
 }
 
+// NewNullStringIfZero returns a NULL String if the input value is empty.
+// Otherwise, it returns a valid String with the given value.
+//
+// Example:
+//
+//	s := ztype.NewNullStringIfZero("")
+//	s.IsNull() // true
+//
+//	s := ztype.NewNullStringIfZero("value")
+//	s.Get()    // "value"
+//	s.IsNull() // false
+func NewNullStringIfZero(value string) String {
+	if value == "" {
+		return NewNullString()
+	}
+	return NewString(value)
+}
+
 // Get returns the underlying string value (empty if NULL).
 //
 // Example:

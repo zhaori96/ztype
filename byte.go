@@ -51,6 +51,24 @@ func NewNullByte() Byte {
 	return Byte{value: sql.NullByte{Valid: false}}
 }
 
+// NewNullByteIfZero creates a null Byte if the given value is zero;
+// otherwise, it returns a non-null Byte with the specified value.
+//
+// Example:
+//
+//	b1 := NewNullByteIfZero(0)
+//	b1.IsNull() // true
+//
+//	b2 := NewNullByteIfZero(42)
+//	b2.IsNull() // false
+//	b2.Get()    // 42
+func NewNullByteIfZero(value byte) Byte {
+	if value == 0 {
+		return NewNullByte()
+	}
+	return NewByte(value)
+}
+
 // Get returns the byte value. When null, returns 0.
 // Use IsNull() to check validity before using this value.
 //

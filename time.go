@@ -677,7 +677,7 @@ func (t *Time) UnmarshalText(data []byte) error {
 //
 //	data, _ := json.Marshal(t)
 //	fmt.Println(string(data))
-func (t *Time) MarshalJSON() ([]byte, error) {
+func (t Time) MarshalJSON() ([]byte, error) {
 	if t.value.Valid {
 		return json.Marshal(t.value.Time.Format(time.RFC3339))
 	}

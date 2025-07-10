@@ -213,7 +213,7 @@ func (b *Byte) UnmarshalText(data []byte) error {
 //	b := ztype.NewByte(10)
 //	jsonData, _ := json.Marshal(b)
 //	fmt.Println(string(jsonData))  // Output: 10
-func (b *Byte) MarshalJSON() ([]byte, error) {
+func (b Byte) MarshalJSON() ([]byte, error) {
 	if b.value.Valid {
 		return json.Marshal(b.value.Byte)
 	}

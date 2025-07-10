@@ -598,7 +598,7 @@ func (n *Numeric[T]) UnmarshalText(data []byte) error {
 //	n := NewNumber(3.14)
 //	j, _ := json.Marshal(n)
 //	fmt.Println(string(j)) // Output: 3.14
-func (n *Numeric[T]) MarshalJSON() ([]byte, error) {
+func (n Numeric[T]) MarshalJSON() ([]byte, error) {
 	if n.value.Valid {
 		return json.Marshal(n.value.V)
 	}

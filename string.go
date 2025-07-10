@@ -206,7 +206,7 @@ func (s *String) UnmarshalText(data []byte) error {
 //	s := ztype.NewNullString()
 //	data, _ := json.Marshal(s)
 //	string(data) // "null"
-func (s *String) MarshalJSON() ([]byte, error) {
+func (s String) MarshalJSON() ([]byte, error) {
 	if s.value.Valid {
 		return json.Marshal(s.value.String)
 	}

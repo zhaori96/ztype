@@ -74,6 +74,23 @@ func (m Map[K, V]) Get() map[K]V {
 	return m.value
 }
 
+// GetOrEmpty returns the underlying map value if the Map is not null.
+// If the Map is marked as null, it returns a new empty map.
+//
+// This is useful to avoid null checks when accessing the map.
+//
+// Example:
+//
+//	m := NewMap(map[string]int{"a": 1})
+//	m.SetNull()
+//	v := m.GetOrEmpty() // map[string]int{}
+func (m Map[K, V]) GetOrEmpty() map[K]V {
+	if m.value == nil {
+		return make(map[K]V)
+	}
+	return m.value
+}
+
 // Set sets the internal map value and marks the Map as valid.
 //
 // Example:
@@ -136,18 +153,18 @@ func (m *Map[K, V]) DeleteItem(key K) (V, bool) {
 	return zero, false
 }
 
-// SetNull marks the Map as null and clears its content.
+// SetNull marks the Map as null and sets its underlying value to nil.
 //
 // Example:
 //
 //	m := NewMap(map[string]int{"a": 1})
 //	m.SetNull()
 func (m *Map[K, V]) SetNull() {
-	m.value = map[K]V{}
+	m.value = nil
 	m.valid = false
 }
 
-// IsNull returns true if the Map is null (invalid).
+// IsNull returns true if the Map has been marked as null, regardless of the underlying value.
 //
 // Example:
 //
@@ -157,14 +174,14 @@ func (m Map[K, V]) IsNull() bool {
 	return !m.valid
 }
 
-// IsZero returns true if the internal map is empty.
+// IsZero returns true if the Map is not null and its underlying value has no elements.
 //
 // Example:
 //
 //	m := NewMap(map[string]int{})
 //	fmt.Println(m.IsZero()) // true
 func (m Map[K, V]) IsZero() bool {
-	return len(m.value) == 0
+	return m.valid && len(m.value) == 0
 }
 
 // Len returns the number of items in the internal map.
@@ -265,13 +282,13 @@ func (m *Map[K, V]) Collect(items iter.Seq2[K, V]) {
 	m.valid = true
 }
 
-// Filter returns a new Map containing only items where filter(key, value) is true.
+// Filtered returns a new Map containing only items where filter(key, value) is true.
 //
 // Example:
 //
 //	m := NewMap(map[string]int{"a": 1, "b": 2})
-//	filtered := m.Filter(func(k string, v int) bool { return v > 1 })
-func (m Map[K, V]) Filter(filter func(K, V) bool) Map[K, V] {
+//	filtered := m.Filtered(func(k string, v int) bool { return v > 1 })
+func (m Map[K, V]) Filtered(filter func(K, V) bool) Map[K, V] {
 	result := map[K]V{}
 	for key, value := range m.value {
 		if filter(key, value) {
@@ -282,19 +299,18 @@ func (m Map[K, V]) Filter(filter func(K, V) bool) Map[K, V] {
 	return m
 }
 
-// Merge merges other Maps into this Map, returning a new merged Map.
+// Merged merges other Maps into this Map, returning a new merged Map.
 //
 // Example:
 //
 //	m1 := NewMap(map[string]int{"a": 1})
 //	m2 := NewMap(map[string]int{"b": 2})
-//	merged := m1.Merge(m2)
-func (m Map[K, V]) Merge(others ...Map[K, V]) Map[K, V] {
-	merged := maps.Clone(m.value)
+//	merged := m1.Merged(m2)
+func (m Map[K, V]) Merged(others ...Map[K, V]) Map[K, V] {
+	m.value = maps.Clone(m.value)
 	for _, other := range others {
-		maps.Copy(merged, other.value)
+		maps.Copy(m.value, other.value)
 	}
-	m.value = merged
 	m.valid = true
 	return m
 }
